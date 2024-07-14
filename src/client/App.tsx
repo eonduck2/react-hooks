@@ -1,7 +1,8 @@
 import React from "react";
+import Counter from "./components/counterState";
 
 const App: React.FC = () => {
-  return <h1>안녕</h1>;
+  return <Counter></Counter>;
 };
 
 export default App;
