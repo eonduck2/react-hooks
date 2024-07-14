@@ -1,8 +1,8 @@
 import React from "react";
-import Counter from "./components/counterState";
+import CounterEffect from "./components/counterEffect/CounterEffect";
 
 const App: React.FC = () => {
-  return <Counter></Counter>;
+  return <CounterEffect></CounterEffect>;
 };
 
 export default App;
