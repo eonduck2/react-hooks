@@ -1,8 +1,8 @@
 import React from "react";
-import CounterEffect from "./components/counterEffect/CounterEffect";
+import FocusInput from "./components/inputRef/InputRef";
 
 const App: React.FC = () => {
-  return <CounterEffect></CounterEffect>;
+  return <FocusInput></FocusInput>;
 };
 
 export default App;
