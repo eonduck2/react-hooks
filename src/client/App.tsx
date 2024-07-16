@@ -1,8 +1,9 @@
 import React from "react";
 import Memoization from "./components/useMemo/Memoization";
+import CounterMeMoiCallback from "./components/useCallback/MemoizationCallback";
 
 const App: React.FC = () => {
-  return <Memoization a={10} b={20}></Memoization>;
+  return <CounterMeMoiCallback></CounterMeMoiCallback>;
 };
 
 export default App;
