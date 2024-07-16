@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Virtual DOM Example</title>
+    <style>
+      .item {
+        padding: 10px;
+        margin: 5px;
+        background-color: lightblue;
+      }
+      #loading {
+        display: none;
+        font-size: 20px;
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <input type="text" id="input-text" placeholder="Add item" />
+    <button id="add-item">아이템 추가</button>
+    <button id="remove-item">아이템 제거</button>
+    <p id="time"></p>
+    <p id="loading">브라우저가 그리는 중...</p>
+
+    <script>
+      let virtualDOM = [];
+      const app = document.getElementById("root");
+      const timeDisplay = document.getElementById("time");
+      const inputText = document.getElementById("input-text");
+      const addItemButton = document.getElementById("add-item");
+      const removeItemButton = document.getElementById("remove-item");
+      const loadingDisplay = document.getElementById("loading");
+      let state = { items: [] };
+
+      function updateState(newItems) {
+        state.items = newItems;
+        updateVirtualDOM();
+      }
+
+      function updateVirtualDOM() {
+        virtualDOM = state.items.map((item) => item);
+        render();
+      }
+
+      function render() {
+        loadingDisplay.style.display = "block";
+        const startTime = performance.now();
+
+        setTimeout(() => {
+          // 비교 후 변경된 부분만 실제 돔에 반영
+          const existingItems = app.querySelectorAll(".item");
+          virtualDOM.forEach((item, index) => {
+            if (existingItems[index]) {
+              if (existingItems[index].textContent !== item) {
+                existingItems[index].textContent = item;
+                existingItems[index].style.backgroundColor = `hsl(${
+                  Math.random() * 360
+                }, 100%, 75%)`;
+              }
+            } else {
+              const div = document.createElement("div");
+              div.className = "item";
+              div.textContent = item;
+              div.style.backgroundColor = `hsl(${
+                Math.random() * 360
+              }, 100%, 75%)`; // 색상 변경
+              app.appendChild(div);
+            }
+          });
+
+          // 남은 기존 엘리먼트 제거
+          for (let i = virtualDOM.length; i < existingItems.length; i++) {
+            app.removeChild(existingItems[i]);
+          }
+
+          const endTime = performance.now();
+          timeDisplay.textContent = `경과된 시간: ${(
+            endTime - startTime
+          ).toFixed(2)} ms`;
+          loadingDisplay.style.display = "none";
+        }, 1000); // 1초 지연
+      }
+
+      function addItem() {
+        const newItem = inputText.value;
+        if (newItem) {
+          const newItems = [...state.items, newItem];
+          updateState(newItems);
+        }
+      }
+
+      function removeItem() {
+        const newItems = state.items.slice(0, -1);
+        updateState(newItems);
+      }
+
+      addItemButton.addEventListener("click", addItem);
+      removeItemButton.addEventListener("click", removeItem);
+    </script>
+  </body>
+</html>
