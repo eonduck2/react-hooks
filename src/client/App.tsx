@@ -1,8 +1,8 @@
 import React from "react";
-import CounterReducer from "./components/counterReducer/CounterReducer";
+import Memoization from "./components/useMemo/Memoization";
 
 const App: React.FC = () => {
-  return <CounterReducer></CounterReducer>;
+  return <Memoization a={10} b={20}></Memoization>;
 };
 
 export default App;
