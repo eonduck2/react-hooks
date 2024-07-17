@@ -1,9 +1,8 @@
 import React from "react";
-import Memoization from "./components/useMemo/Memoization";
-import CounterMeMoiCallback from "./components/useCallback/MemoizationCallback";
+import ParentComponentImperative from "./components/useImperativeHandle/UseImperativeHandle";
 
 const App: React.FC = () => {
-  return <CounterMeMoiCallback></CounterMeMoiCallback>;
+  return <ParentComponentImperative></ParentComponentImperative>;
 };
 
 export default App;

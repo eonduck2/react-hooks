@@ -1,26 +1,31 @@
 import React, { useState, useCallback } from "react";
 
-const CounterMeMoiCallback = () => {
-  const [count, setCount] = useState(0);
-  const [step, setStep] = useState(1);
+interface ListItemProps {
+  item: string;
+  onClick: (item: string) => void;
+}
 
-  // useCallback을 사용하여 increment 함수 메모이제이션
-  const increment = useCallback(() => {
-    setCount((prevCount) => prevCount + step);
-  }, [step]); // step이 변경될 때마다 새롭게 생성
+const ListItem: React.FC<ListItemProps> = React.memo(({ item, onClick }) => {
+  console.log(`Rendered item ${item}`);
+  return <li onClick={() => onClick(item)}>{item}</li>;
+});
+
+const items = ["Item 1", "Item 2", "Item 3"];
+
+const ItemListMemoiCallback: React.FC = () => {
+  const [selectedItem, setSelectedItem] = useState<string | null>(null);
+
+  const handleClick = useCallback((item: string) => {
+    setSelectedItem(item);
+  }, []);
 
   return (
-    <div>
-      <p>Count: {count}</p>
-      <input
-        type="number"
-        value={step}
-        onChange={(e) => setStep(Number(e.target.value))}
-        placeholder="Set step"
-      />
-      <button onClick={increment}>Increment</button>
-    </div>
+    <ul>
+      {items.map((item) => (
+        <ListItem key={item} item={item} onClick={handleClick} />
+      ))}
+    </ul>
   );
 };
 
-export default CounterMeMoiCallback;
+export default ItemListMemoiCallback;
